@@ -1,16 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Obstacle extends Position{
+public class Enemy extends Position{
 
         private ImageIcon imageIcon;
 
-    public Obstacle(int x, int y) {
+    public Enemy(int x, int y) {
         super(x, y);
-        this.imageIcon = new ImageIcon("Img/solid_brick.jpg");
+        this.imageIcon = new ImageIcon("Img/EnemyL.png");
     }
-
-
 
         public ImageIcon getImageIcon() {
             return imageIcon;
@@ -19,10 +17,8 @@ public class Obstacle extends Position{
         public void setImageIcon(ImageIcon imageIcon) {
             this.imageIcon = imageIcon;
         }
-        public void paint(Graphics g, Map map) {
-            this.imageIcon.paintIcon(map,g,this.getX(),this.getY());
+        public void paint(Graphics g, GamePanel gamePanel) {
+            this.imageIcon.paintIcon(gamePanel,g,this.getX(),this.getY());
 
         }
-
-
-}
+    }

@@ -1,34 +1,20 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Prize {
-    private int x;
-    private int y;
+public class Prize extends Position{
+
     private ImageIcon icon;
 
     public Prize(int x, int y) {
-        this.x = x;
-        this.y = y;
-        this.icon = new ImageIcon("Img/KESEF.png");
+        super(x, y);
+        this.icon = new ImageIcon("Img/Money.png");
     }
+
+
     public void paint(Graphics g, Map map) {
-        this.icon.paintIcon(map,g,x,y);
-    }
-    public int getX() {
-        return x;
+        this.icon.paintIcon(map,g,this.getX(),this.getY());
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
 
     public ImageIcon getIcon() {
         return icon;

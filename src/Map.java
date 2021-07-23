@@ -14,8 +14,6 @@ public class Map extends JPanel {
         this.mapGame();
 
     }
-
-
     public void obstacles() {
         this.obstaclesUL = new Obstacle[200];
         this.obstaclesDR = new Obstacle[200];
@@ -30,7 +28,7 @@ public class Map extends JPanel {
         }
         for (y = 0, i = 0; y < 200; y++) {
             if (y < DefGame.X_LINE)
-                obstaclesDR[y] = new Obstacle(50 + y * 50, 17 * 45);
+                obstaclesDR[y] = new Obstacle( 0+ y * 50, 17 * 45);
             else {
                 obstaclesDR[y] = new Obstacle(29 * 50, 0 + i * 50);
                 i++;
@@ -50,10 +48,6 @@ public class Map extends JPanel {
                         h++;
                         break;
                     case 'R':
-                        if (obstaclesUL[i].getY() == player.getY() &&
-                                obstaclesUL[i].getX() == player.getX() + DefGame.ENEMY_H) {
-                            return false;
-                        }
                         if (obstaclesDR[i].getY() + h == player.getY() &&
                                 obstaclesDR[i].getX() - DefGame.ENEMY_H == player.getX()) {
                             return false;
@@ -89,12 +83,22 @@ public class Map extends JPanel {
         for (int i = 1; i < 200; i++) {
             this.obstaclesUL[i].paint(g, this);
         }
-        for (int y = 0; y < 200; y++) {
+        for (int y = 1; y < 200; y++) {
             this.obstaclesDR[y].paint(g, this);
         }
 
 
     }
 
+    public void locatePrice(int x, int y) {
+        if(prize1.getX()==x)
+        if(y==prize1.getY()){
+        int r = (int) (Math.random() * 5);
+         prize1.setX((r * 10));
+        r = (int) (Math.random() * 5);
+        prize1.setY((r * 10));
+    }
+        repaint();
+    }
 
 }

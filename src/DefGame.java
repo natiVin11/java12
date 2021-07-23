@@ -13,8 +13,8 @@ public class DefGame {
     public static int ROBOT_Y = 0;
     public static final int obstacle_X = 400;
     public static final int obstacle_Y = 400;
-    public static int assassinX =200;
-    public static int assassinY =60;
+    public static int assassinX =1200;
+    public static int assassinY =80;
     public static int ENEMY_W=50;
     public static int ENEMY_H=50;
     public static final int PRIZEX =650;

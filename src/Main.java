@@ -14,7 +14,6 @@ public class Main extends JFrame {
         GamePanel gamePanel = new GamePanel();
         gamePanel.setBounds(0,0,DefGame.WINDOS_H,DefGame.WINDOS_W);
         gamePanel.createImage(50,50);
-
         gamePanel.setVisible(true);
                 add(gamePanel);
 

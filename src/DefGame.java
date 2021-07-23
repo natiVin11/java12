@@ -7,6 +7,8 @@ public class DefGame {
     public static final int BOYTTON_H = 150;
     public static final int SEN_MAIN = 0;
     public static final int SEN_START = 1;
+    public static final int SEN_GAMEOVER = 2;
+
     public static int ROBOT_X = 0;
     public static int ROBOT_Y = 0;
     public static final int obstacle_X = 400;

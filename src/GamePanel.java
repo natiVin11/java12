@@ -17,9 +17,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         for (int i = 0; i < 5; i++) {
             enemies[i] = new Enemy(DefGame.assassinX, DefGame.assassinY);
             DefGame.assassinY = DefGame.assassinY + 200;
-
-
-        }
+  }
 
         map = new Map();
         JButton button = new JButton("start game!");
@@ -34,32 +32,35 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         background1.setBounds(0, 0, 1500, 900);
         this.add(background1);
         button.addActionListener((e -> {
-            if (this.setId == DefGame.SEN_MAIN) {
                 this.setId = DefGame.SEN_START;
                 button.setVisible(false);
                 myText.setVisible(false);
                 background1.setVisible(false);
+            }));
 
-            } else {
-                this.setId = DefGame.SEN_MAIN;
-            }
-        }));
 
-        this.setLayout(null);
-        this.player = new Player(DefGame.ROBOT_X + 50, DefGame.ROBOT_Y);
-        addKeyListener(this);
-        setFocusable(true);
-        setFocusTraversalKeysEnabled(false);
-        this.mainGame();
-    }
+    setLayout(null);
+        this.player =new
 
+    Player(DefGame.ROBOT_X +50, DefGame.ROBOT_Y);
+
+    addKeyListener(this);
+
+    setFocusable(true);
+
+    setFocusTraversalKeysEnabled(false);
+        this.
+
+    mainGame();
+
+}
     public void mainGame() {
         new Thread(() -> {
             while (true) {
                 repaint();
                 try {
                     {
-                        for(int i=0;i<5;i++) {
+                        for (int i = 0; i < 5; i++) {
                             Enemy.randomMobment(enemies[i]);
                         }
                     }
@@ -73,6 +74,29 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         }).start();
 
     }
+public void gameOver(){
+    this.setId=DefGame.SEN_GAMEOVER;
+    JLabel gameOver = new JLabel(new ImageIcon("Img/GameOver.jpeg"));
+    gameOver.setBounds(0, 0, 1500, 900);
+    JButton yesButton = new JButton("Yes");
+    yesButton.setBounds(DefGame.BOYTTON_X-650, DefGame.BOYTTON_Y-200, DefGame.BOYTTON_H-10, DefGame.BOYTTON_W-10);
+    JButton noButton = new JButton("No And Exit");
+    noButton.setBounds(DefGame.BOYTTON_X-650, DefGame.BOYTTON_Y-50, DefGame.BOYTTON_H-10, DefGame.BOYTTON_W-10);
+    this.add(noButton);
+    this.add(yesButton);
+    this.add(gameOver);
+    noButton.setVisible(true);
+    yesButton.setVisible(true);
+    gameOver.setVisible(true);
+    yesButton.addActionListener((e -> {
+        this.setId = DefGame.SEN_START;
+        noButton.setVisible(false);
+        yesButton.setVisible(false);
+        gameOver.setVisible(false);
+    }));
+    noButton.addActionListener((e -> {
+        System.exit(0);
+    }));}
 
     public boolean checkEnemy(char d) {
 
@@ -123,6 +147,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                     this.enemies[i].paint(g, this);
                 }
                 break;
+            case DefGame.SEN_GAMEOVER:
+                this.setBackground(Color.BLACK);
+                break;
         }
 
     }
@@ -143,15 +170,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_LEFT:
                 player.setImageIcon(new ImageIcon("Img/player2_tank_left.png"));
-                if (!map.checkO(player, 'L'))
+                if (!map.checkO(player, 'L')) {
+                    gameOver();
                     break;
+                }
                 if (checkEnemy('L'))
                     player.setX(player.getX() - 5);
                 break;
             case KeyEvent.VK_RIGHT:
                 player.setImageIcon(new ImageIcon("Img/player2_tank_right.png"));
-                if (!map.checkO(player, 'R'))
-                    break;
+                if (!map.checkO(player, 'R')){
+                    break;}
                 if (checkEnemy('R'))
                     player.setX(player.getX() + 5);
 

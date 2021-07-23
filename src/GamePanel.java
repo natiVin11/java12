@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Random;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private int setId;
@@ -14,10 +15,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 
     public GamePanel() {
+        Random ranx =new Random();
         enemies = new Enemy[5];
-        for (int i = 0; i < enemies.length; i++) {
-            enemies[i] = new Enemy(DefGame.assassinX, DefGame.assassinY);
-            DefGame.assassinY = DefGame.assassinY + 200;
+        for (int i = 0; i < 5; i++) {
+            enemies[i] = new Enemy(50, DefGame.assassinY);
+            DefGame.assassinY = DefGame.assassinY +200;
+
+
         }
         map = new Map();
         JButton button = new JButton("start game!");
@@ -48,19 +52,35 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     public void mainGame() {
         new Thread(() -> {
+            int velX = 15;
+            int velY = 10;
+            int flag=0;
             while (true) {
 
                 repaint();
                 try {
-                    for (int i = 0, flag = 1; i < enemies.length; i++) {
-                        if (i % 2 != 0 && (this.enemies[i].getX() != 800))
-                            enemies[i].setX(this.enemies[i].getX() + 5);
-                            else if(i % 2 == 0 && (this.enemies[i].getX() != 50))
-                                enemies[i].setX(this.enemies[i].getX() - 5);
-                        else if (i % 2 != 0 && (this.enemies[i].getX() == 50))
-                            enemies[i].setX(this.enemies[i].getX() + 5);
-                        else if (i % 2 == 0 && (this.enemies[i].getX() == 800))
-                                enemies[i].setX(this.enemies[i].getX() - 5);
+                    for (int i = 0; i < 2; i++) {
+                        if (this.enemies[i].getY() >= 730)
+                        {
+                            velY = - velY;
+
+                        }
+                        if(this.enemies[i].getY() <=50)
+                            velY = - velY;
+                            enemies[i].setY(this.enemies[i].getY() + velY);
+                        if(this.enemies[i].getY() <=1000)
+                        {
+                            velX=-velX;
+                          }
+                        if(this.enemies[i].getY() <=50)
+                            velX=-velX;
+                        enemies[i].setX(this.enemies[i].getX() - velX);
+//
+//                        enemies[i].setX(this.enemies[i].getX() + velX);
+
+
+
+
                     }
                     Thread.sleep(100);
 
@@ -103,6 +123,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         return true;
     }
 
+    public void action(ActionEvent e) {
+
+    }
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -114,7 +138,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                 this.setBackground(Color.BLACK);
                 this.player.paint(g, this);
                 this.map.paint(g);
-                for (int i = 0; i < 2; i++) {
+                for (int i = 0; i < 5; i++) {
                     this.enemies[i].paint(g, this);
                 }
                 break;

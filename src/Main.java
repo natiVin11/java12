@@ -9,11 +9,14 @@ public class Main extends JFrame {
         this.setSize(DefGame.WINDOS_H,DefGame.WINDOS_W);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
-        this.setTitle("my game");
+        this.setTitle("Tanks War");
         this.setLayout(null);
         GamePanel gamePanel = new GamePanel();
         gamePanel.setBounds(0,0,DefGame.WINDOS_H,DefGame.WINDOS_W);
-        add(gamePanel);
+        gamePanel.createImage(50,50);
+
+        gamePanel.setVisible(true);
+                add(gamePanel);
 
     }
 }

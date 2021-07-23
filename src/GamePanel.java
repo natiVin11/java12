@@ -1,11 +1,9 @@
-import java.awt.Dimension;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Random;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private int setId;
@@ -15,27 +13,33 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 
     public GamePanel() {
-        Random ranx =new Random();
         enemies = new Enemy[5];
         for (int i = 0; i < 5; i++) {
-            enemies[i] = new Enemy(50, DefGame.assassinY);
-            DefGame.assassinY = DefGame.assassinY +200;
+            enemies[i] = new Enemy(DefGame.assassinX, DefGame.assassinY);
+            DefGame.assassinY = DefGame.assassinY + 200;
 
 
         }
+
         map = new Map();
         JButton button = new JButton("start game!");
         button.setBounds(DefGame.BOYTTON_X, DefGame.BOYTTON_Y, DefGame.BOYTTON_H, DefGame.BOYTTON_W);
         this.add(button);
         JLabel myText = new JLabel();
-        myText.setText("Tank's");
-        myText.setBounds(200, 180, 260, 150);
+        myText.setText("Created BY Dario Hajduk & Nati Winter");
+        myText.setBackground(Color.red);
+        myText.setBounds(1250, 650, 500, 150);
         this.add(myText);
+        JLabel background1 = new JLabel(new ImageIcon("Img/Background.jpeg"));
+        background1.setBounds(0, 0, 1500, 900);
+        this.add(background1);
         button.addActionListener((e -> {
             if (this.setId == DefGame.SEN_MAIN) {
                 this.setId = DefGame.SEN_START;
                 button.setVisible(false);
                 myText.setVisible(false);
+                background1.setVisible(false);
+
             } else {
                 this.setId = DefGame.SEN_MAIN;
             }
@@ -49,38 +53,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         this.mainGame();
     }
 
-
     public void mainGame() {
         new Thread(() -> {
-            int velX = 15;
-            int velY = 10;
-            int flag=0;
             while (true) {
-
                 repaint();
                 try {
-                    for (int i = 0; i < 2; i++) {
-                        if (this.enemies[i].getY() >= 730)
-                        {
-                            velY = - velY;
-
+                    {
+                        for(int i=0;i<5;i++) {
+                            Enemy.randomMobment(enemies[i]);
                         }
-                        if(this.enemies[i].getY() <=50)
-                            velY = - velY;
-                            enemies[i].setY(this.enemies[i].getY() + velY);
-                        if(this.enemies[i].getY() <=1000)
-                        {
-                            velX=-velX;
-                          }
-                        if(this.enemies[i].getY() <=50)
-                            velX=-velX;
-                        enemies[i].setX(this.enemies[i].getX() - velX);
-//
-//                        enemies[i].setX(this.enemies[i].getX() + velX);
-
-
-
-
                     }
                     Thread.sleep(100);
 
@@ -132,7 +113,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         super.paint(g);
         switch (this.setId) {
             case DefGame.SEN_MAIN:
-                this.setBackground(Color.RED);
+                this.repaint();
                 break;
             case DefGame.SEN_START:
                 this.setBackground(Color.BLACK);
@@ -173,6 +154,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                     break;
                 if (checkEnemy('R'))
                     player.setX(player.getX() + 5);
+
                 break;
             case KeyEvent.VK_UP:
                 player.setImageIcon(new ImageIcon("Img/player2_tank_up.png"));

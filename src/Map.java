@@ -15,6 +15,7 @@ public class Map extends JPanel {
 
     }
 
+
     public void obstacles() {
         this.obstaclesUL = new Obstacle[200];
         this.obstaclesDR = new Obstacle[200];
@@ -94,5 +95,6 @@ public class Map extends JPanel {
 
 
     }
+
 
 }

@@ -1,7 +1,7 @@
 public class DefGame {
     public static final int WINDOS_H = 1500;
-    public static final int WINDOS_W = 1000;
-    public static final int BOYTTON_X = 280;
+    public static final int WINDOS_W = 900;
+    public static final int BOYTTON_X = 750;
     public static final int BOYTTON_Y = 550;
     public static final int BOYTTON_W = 80;
     public static final int BOYTTON_H = 150;

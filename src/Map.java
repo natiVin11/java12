@@ -5,7 +5,7 @@ public class Map extends JPanel {
     private Enemy[] enemies;
     private Obstacle[] obstaclesUL;
     private Obstacle[] obstaclesDR;
-    private Prize prize1;
+    Prize prize1;
 
 
     Map() {
@@ -36,34 +36,6 @@ public class Map extends JPanel {
         }
     }
 
-    public boolean checkO(Player player, char d) {
-        for (int i = 0; i < obstaclesUL.length; i++)
-            for (int h = 0, w = 0; h <= DefGame.ENEMY_H && w <= DefGame.ENEMY_W; )
-                switch (d) {
-                    case 'L':
-                        if (obstaclesUL[i].getY() + h == player.getY() &&
-                                obstaclesUL[i].getX() + DefGame.ENEMY_H == player.getX()) {
-                            return false;
-                        }
-                        h++;
-                        break;
-                    case 'R':
-                        if (obstaclesDR[i].getY() + h == player.getY() &&
-                                obstaclesDR[i].getX() - DefGame.ENEMY_H == player.getX()) {
-                            return false;
-                        }
-                        w++;
-                        h++;
-                        break;
-                    default:
-                        break;
-                }
-        return true;
-
-
-    }
-
-
     public void mapGame() {
         new Thread(() -> {
             while (true) {
@@ -90,15 +62,11 @@ public class Map extends JPanel {
 
     }
 
-    public void locatePrice(int x, int y) {
-        if(prize1.getX()==x)
-        if(y==prize1.getY()){
-        int r = (int) (Math.random() * 5);
-         prize1.setX((r * 10));
-        r = (int) (Math.random() * 5);
-        prize1.setY((r * 10));
-    }
-        repaint();
-    }
+    public void locatePrice() {
+            prize1.setX((DefGame.WINDOS_H-60) + (int) (Math.random() * (DefGame.WINDOS_H-60)));
+            prize1.setY((DefGame.WINDOS_W-60) + (int) (Math.random() * (DefGame.WINDOS_W-60)));
 
-}
+        repaint();
+
+    }
+    }

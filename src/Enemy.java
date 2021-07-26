@@ -22,8 +22,4 @@ public class Enemy extends Position {
 
     }
 
-    public static void randomMobment(Enemy enemy) {
-
-
-    }
 }

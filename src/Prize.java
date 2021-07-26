@@ -10,6 +10,10 @@ public class Prize extends Position{
         this.icon = new ImageIcon("Img/Money.png");
     }
 
+    public void setRandomPosition() {
+        setX((int) (Math.random() * 50));
+        setY((int) (Math.random() * 50));
+    }
 
     public void paint(Graphics g, Map map) {
         this.icon.paintIcon(map,g,this.getX(),this.getY());

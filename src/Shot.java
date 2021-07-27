@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.awt.font.ImageGraphicAttribute;
 
 public class Shot extends Position{
     private ImageIcon shot;
@@ -9,15 +10,14 @@ public class Shot extends Position{
 
     public Shot(int x, int y ) {
         super(x, y);
-        this.shot = new ImageIcon("Img/enemy_shot.png");
+        this.shot = new ImageIcon("Img/1.gif");
+
     }
 
-    public void shootEnemy(){
 
-        while(getX()<1500)
-            this.setX(getX() + 5);
-    }
-
+//    public void shootEnemy(int x,int y){
+//        this.setX(x + 5);
+//    }
 
     public void setShot(ImageIcon shot) {
         this.shot = shot;
@@ -25,7 +25,13 @@ public class Shot extends Position{
 
     public  void  paint(Graphics g,GamePanel gamePanel)
     {
-        this.shot.paintIcon(gamePanel, g, this.getX(), this.getY());
+            move();
+            this.shot.paintIcon(gamePanel, g, this.getX(), this.getY());
     }
 
-}
+    private void move() {
+         this.setX(getX()-5);
+
+        }
+    }
+

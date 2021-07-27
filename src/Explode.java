@@ -3,7 +3,7 @@ import java.awt.*;
 class Explode {
     private int x, y;
     private int step = 0;
-    private int[] diameter = {1, 4, 7, 12, 18, 26, 32, 40, 49, 30, 20, 14, 6};
+    private int[] diameter = {1, 4, 7, 12, 18, 26, 32, 40, 49};
 
     private boolean live = true;
 
@@ -11,7 +11,7 @@ class Explode {
 
     Explode(int x, int y, Player player) {
         this.x = x;
-        this.y = y;
+        this.y =y;
         this.player = player;
     }
 
@@ -19,7 +19,7 @@ class Explode {
         if (step == diameter.length) {
             live = false;
             step = 0;
-            return;
+            return ;
         }
 
         Color color = graphics.getColor();
@@ -27,5 +27,6 @@ class Explode {
         graphics.fillOval(x, y, diameter[step], diameter[step]);
         graphics.setColor(color);
         step++;
+
     }
 }

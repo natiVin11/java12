@@ -1,17 +1,21 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public class Map extends JPanel {
-    private Enemy[] enemies;
     private Obstacle[] obstaclesUL;
     private Obstacle[] obstaclesDR;
-    Prize prize1;
+    public Prize prize1;
+    private Random r = new Random();
+
 
 
     Map() {
         this.prize1 = new Prize(DefGame.PRIZEX + 70, DefGame.PRIZEY + 70);
         this.obstacles();
         this.mapGame();
+        this.r = new Random();
+
 
     }
     public void obstacles() {
@@ -58,15 +62,14 @@ public class Map extends JPanel {
         for (int y = 1; y < 200; y++) {
             this.obstaclesDR[y].paint(g, this);
         }
-
-
     }
 
     public void locatePrice() {
-            prize1.setX((DefGame.WINDOS_H-60) + (int) (Math.random() * (DefGame.WINDOS_H-60)));
-            prize1.setY((DefGame.WINDOS_W-60) + (int) (Math.random() * (DefGame.WINDOS_W-60)));
-
-        repaint();
-
+        int newX=r.nextInt(DefGame.WINDOS_H-DefGame.LOW_X) +DefGame.LOW_X;
+        int newY=r.nextInt(DefGame.WINDOS_W-DefGame.LOW_Y)+DefGame.LOW_Y;
+        this.prize1.setX(newX);
+        this.prize1.setY(newY);
+        mapGame();
     }
-    }
+
+}

@@ -21,6 +21,10 @@ public class DefGame {
     public static final int PRIZEY =0;
     public static int X_LINE =30;
     public static int Y_LINE =30;
+    public static int LOW_X=100;
+    public static int LOW_Y=100;
+    public static int PRICE_W=10;
+    public static int PRICE_H=10;
 
 
 }

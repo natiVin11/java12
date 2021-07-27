@@ -30,17 +30,11 @@ public class Player extends Position {
         }
         return true;
     }
-
-    public boolean catchPrice(Prize prize) {
-
-        return true;
-    }
-
     public boolean catchPrice(int x, int y) {
-        for (int h = 0; h < 50; h++) {
-            if (this.getX() + h == x && this.getY() + h == y) {
+
+            if (this.getX() + DefGame.PRICE_H == x && this.getY() + DefGame.PRICE_W == y) {
                 return true;
-            }
+
         }
         return false;
 

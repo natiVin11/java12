@@ -6,18 +6,22 @@ public class Map extends JPanel {
     private Obstacle[] obstaclesUL;
     private Obstacle[] obstaclesDR;
     public Prize prize1;
+    private int[] prizwX = {100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900,
+            950, 1000, 1050, 1100, 1150, 1200};
+    private int[] prizwY = {100,80,115,810, 150, 200, 250, 300, 350, 400,420, 450, 500, 550, 600, 650, 700, 750, 800,
+    222,537,741,365};
     private Random r = new Random();
-
+    private int xPos = r.nextInt(23);
+    private int yPos = r.nextInt(23);
 
 
     Map() {
-        this.prize1 = new Prize(DefGame.PRIZEX + 70, DefGame.PRIZEY + 70);
+        this.prize1 = new Prize(prizwX[xPos], prizwY[xPos]);
         this.obstacles();
         this.mapGame();
         this.r = new Random();
-
-
     }
+
     public void obstacles() {
         this.obstaclesUL = new Obstacle[200];
         this.obstaclesDR = new Obstacle[200];
@@ -32,7 +36,7 @@ public class Map extends JPanel {
         }
         for (y = 0, i = 0; y < 200; y++) {
             if (y < DefGame.X_LINE)
-                obstaclesDR[y] = new Obstacle( 0+ y * 50, 17 * 45);
+                obstaclesDR[y] = new Obstacle(0 + y * 50, 17 * 45);
             else {
                 obstaclesDR[y] = new Obstacle(29 * 50, 0 + i * 50);
                 i++;
@@ -43,7 +47,6 @@ public class Map extends JPanel {
     public void mapGame() {
         new Thread(() -> {
             while (true) {
-
                 repaint();
                 try {
                     Thread.sleep(100);
@@ -55,7 +58,7 @@ public class Map extends JPanel {
     }
 
     public void paint(Graphics g) {
-        this.prize1.paint(g, this);
+        this.prize1.paint(g,this ,prizwX[xPos],prizwY[yPos]);
         for (int i = 1; i < 200; i++) {
             this.obstaclesUL[i].paint(g, this);
         }
@@ -65,11 +68,9 @@ public class Map extends JPanel {
     }
 
     public void locatePrice() {
-        int newX=r.nextInt(DefGame.WINDOS_H-DefGame.LOW_X) +DefGame.LOW_X;
-        int newY=r.nextInt(DefGame.WINDOS_W-DefGame.LOW_Y)+DefGame.LOW_Y;
-        this.prize1.setX(newX);
-        this.prize1.setY(newY);
-        mapGame();
+        prize1.setX(prizwX[xPos]);
+        prize1.setY(prizwY[yPos]);
+        repaint();
     }
 
 }

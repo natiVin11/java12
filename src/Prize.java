@@ -5,6 +5,7 @@ public class Prize extends Position{
 
     private ImageIcon icon;
 
+
     public Prize(int x, int y) {
         super(x, y);
         this.icon = new ImageIcon("Img/Money.png");
@@ -15,7 +16,7 @@ public class Prize extends Position{
         setY((int) (Math.random() * 50));
     }
 
-    public void paint(Graphics g, Map map) {
+    public void paint(Graphics g, Map map, int prizwX, int i) {
         this.icon.paintIcon(map,g,this.getX(),this.getY());
     }
 

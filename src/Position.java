@@ -1,6 +1,6 @@
 public class  Position {
-    private int x;
-    private int y;
+    int x;
+    public int y;
 
     public Position(int x, int y) {
         this.x = x;

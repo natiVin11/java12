@@ -4,12 +4,18 @@ import java.awt.*;
 public class Player extends Position {
 
     private ImageIcon imageIcon;
+    private Shot pshots;
 
-    public Player(int x, int y) {
+    public Player(int x, int y){
         super(x, y);
         this.imageIcon = new ImageIcon("Img/player2_tank_down.png");
+        this.pshots = new Shot(getX(),getY());
     }
 
+    public  void shooting(int x,int y){
+        pshots.setX(getX()-x);
+        pshots.setY(getY()+y);
+    }
 
     public ImageIcon getImageIcon() {
         return imageIcon;
@@ -31,10 +37,9 @@ public class Player extends Position {
         return true;
     }
     public boolean catchPrice(int x, int y) {
-
-            if (this.getX() + DefGame.PRICE_H == x && this.getY() + DefGame.PRICE_W == y) {
-                return true;
-
+        if (this.x + DefGame.PRICE_H == x && this.y + DefGame.PRICE_W == y) {
+            System.out.println("catch");
+            return true;
         }
         return false;
 

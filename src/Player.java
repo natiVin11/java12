@@ -13,6 +13,7 @@ public class Player extends Position {
     }
 
     public  void shooting(int x,int y){
+        pshots.diriction(x,y);
         pshots.setX(getX()-x);
         pshots.setY(getY()+y);
     }
@@ -27,6 +28,7 @@ public class Player extends Position {
 
     public void paint(Graphics g, GamePanel gamePanel) {
         this.imageIcon.paintIcon(gamePanel, g, this.getX(), this.getY());
+        pshots.paint(g,gamePanel);
 
     }
 

@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.text.StyledEditorKit;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,27 +15,39 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private Map map;
     private Shot[] shot;
     private Explode explode;
-    private Enemy enemy;
-
+    private Enemy en1;
+    private Enemy en2;
+    private Enemy en3;
+    private Enemy en4;
+    private Enemy en5;
+    private Enemy en6;
+    private int[] randX = {750, 800, 850, 900,
+            950, 1000, 1050, 1100, 1150, 1200};
+    private int[] randY = {100, 80, 115, 810, 150, 200, 250, 300, 350, 400, 420, 450, 500, 550, 600};
+    private Random r = new Random();
+    private int xPos = r.nextInt(10);
+    private int yPos = r.nextInt(15);
 
     public GamePanel() {
-
-        enemy = new Enemy(DefGame.assassinX, DefGame.assassinY);
+        Font tr = new Font("TimesRoman", Font.PLAIN, 22);
         enemies = new Enemy[5];
+        en1 = new Enemy(600, 100);
+        en2 = new Enemy(randX[xPos], 200);
+        en3 = new Enemy(400, randY[yPos]);
+        en4 = new Enemy(randX[xPos], randY[yPos]);
+        en5 = new Enemy(randX[xPos], 700);
+        en6 = new Enemy(800, randY[yPos]);
+
         shot = new Shot[5];
-        for (int i = 0; i < 5; i++) {
-            enemies[i] = new Enemy(DefGame.assassinX, DefGame.assassinY);
-            DefGame.assassinY = DefGame.assassinY + 100;
-            shot[i] = new Shot(enemies[i].getX(),enemies[i].getY());
-        }
         map = new Map();
         JButton button = new JButton("start game!");
         button.setBounds(DefGame.BOYTTON_X, DefGame.BOYTTON_Y, DefGame.BOYTTON_H, DefGame.BOYTTON_W);
         this.add(button);
         JLabel myText = new JLabel();
         myText.setText("Created BY Dario Hajduk & Nati Winter");
-        myText.setBackground(Color.red);
-        myText.setBounds(1250, 650, 500, 150);
+        myText.setFont(tr);
+        myText.setBounds(1050, 650, 500, 150);
+        myText.setForeground(Color.cyan);
         this.add(myText);
         JLabel background1 = new JLabel(new ImageIcon("Img/Background.jpeg"));
         background1.setBounds(0, 0, DefGame.WINDOS_H, DefGame.WINDOS_W);
@@ -55,22 +68,26 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     }
 
-    private void check(int i, int y) {
-        if (shot[i].getX() == 0) {
-            shot[i].setX(enemies[i].getX());
-        }
-    }
-
     public void mainGame() {
         new Thread(() -> {
             while (true) {
 
                 repaint();
-                for (int i = 0; i < 4; i++) {
-                    if (enemies[i].getX() + i == player.getX() && enemies[i].getY() + i == player.getY())
-                        gameOver();
-                    enemies[i].direction(enemies[i].getX());
-                }
+                if (en1.checkEnemy(player.getX(), player.getY()) ||
+                        en2.checkEnemy(player.getX(), player.getY()) ||
+                        en3.checkEnemy(player.getX(), player.getY()) ||
+                        en4.checkEnemy(player.getX(), player.getY()) ||
+                        en5.checkEnemy(player.getX(), player.getY()) ||
+                        en6.checkEnemy(player.getX(), player.getY())) {
+                    this.explode = new Explode(player.getX(), player.getY(), player);
+                    this.setId = DefGame.SEN_EXPLODE;
+                    gameOver();}
+                    en1.direction();
+                    en2.direction();
+                    en3.direction();
+                    en4.direction();
+                    en5.direction();
+                    en6.direction();
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -110,42 +127,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             System.exit(0);
         }));
     }
-
-
-    public boolean checkEnemy(char d) {
-
-        for (int i = 0; i < enemies.length; i++) {
-            switch (d) {
-                case 'L':
-                    if (enemies[i].getX() == player.getX() - DefGame.ENEMY_W && enemies[i].getY() == player.getY()
-                    ) {
-                        this.explode = new Explode(player.getX(), player.getY(), player);
-                        this.setId = DefGame.SEN_EXPLODE;
-                        return false;
-                    }
-                    break;
-                case 'R':
-                    if (enemies[i].getX() == player.getX() + DefGame.ENEMY_W && enemies[i].getY() == player.getY()) {
-                        this.explode = new Explode(player.getX() + 15, player.getY() + 15, player);
-                        this.setId = DefGame.SEN_EXPLODE;
-                        return false;
-                    }
-                    break;
-
-                case 'U':
-
-                    if (enemies[i].getX() == player.getX() && enemies[i].getY() + DefGame.ENEMY_H == player.getY())
-                        return false;
-                    break;
-                case 'D':
-                    if (enemies[i].getX() == player.getX() && enemies[i].getY() - DefGame.ENEMY_H == player.getY())
-                        return false;
-                    break;
-            }
-        }
-        return true;
-    }
-
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -158,17 +139,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                 this.player.paint(g, this);
                 this.map.paint(g);
                 while (true) {
-                    for (int i = 0; i < 5; i++) {
-                        shot[i].paint(g, this);
-                    }
-
-                    for (int z = 0; z < 5; z++) {
-                        enemies[z].paint((Graphics2D) g, this);
-                        if (enemies[z].getX() > 0)
-                            enemies[z].setX(enemies[z].getX() - 3);
-                        else if (enemies[z].getX() < 0)
-                            enemies[z].setX(enemies[z].getX() + 3);
-                    }
+                    int speed = 5;
+                    en1.paint(g, this, en1.getX(), en1.getY());
+                    en2.paint(g, this, en1.getX(), en1.getY());
+                    en3.paint(g, this, en1.getX(), en1.getY());
+                    en4.paint(g, this, en1.getX(), en1.getY());
+                    en5.paint(g, this, en1.getX(), en1.getY());
+                    en6.paint(g, this, en1.getX(), en1.getY());
 
                     break;
                 }
@@ -179,18 +156,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                 this.explode.draw(g, this);
                 this.setBackground(Color.BLACK);
                 this.map.paint(g);
-                for (int i = 0; i < 5; i++) {
-                    this.enemies[i].paint((Graphics2D) g, this);
-                }
         }
         repaint();
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
     }
+
     @Override
     public void keyTyped(KeyEvent e) {
     }
+
     @Override
     public void keyPressed(KeyEvent e) {
         Random ran = new Random();
@@ -207,10 +184,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                 if (player.catchPrice(map.prize1.x, map.prize1.y)) {
                     map.locatePrice();
                 }
-                if (!checkEnemy('L')) {
-//                    gameOver();
-                    break;
-                } else
+
                     player.setX(player.getX() - 5);
                 break;
             case KeyEvent.VK_RIGHT:
@@ -227,10 +201,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
                 }
 
-                if (!checkEnemy('R')) {
-//                    gameOver();
-                    break;
-                }
+
                 player.setX(player.getX() + 5);
                 break;
             case KeyEvent.VK_UP:
@@ -243,10 +214,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                 if (player.catchPrice(map.prize1.x, map.prize1.y)) {
                     map.locatePrice();
                 }
-                if (!checkEnemy('U')) {
-//                    gameOver();
-                    break;
-                } else
                     player.setY(player.getY() - 5);
                 break;
             case KeyEvent.VK_DOWN:
@@ -259,28 +226,23 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                 if (player.catchPrice(map.prize1.x, map.prize1.y)) {
                     map.locatePrice();
                 }
-                if (!checkEnemy('D')) {
-                    gameOver();
-                    break;
-                }
                 player.setY(player.getY() + 5);
                 break;
             case KeyEvent.VK_SPACE:
-//                switch (direction){
-//                    case 'L':
-//                        player.shooting(-5,0);
-//                        break;
-//                    case 'R':
-//                        player.shooting(+5,0);
-//                        break;
-//                    case 'U':
-//                        player.shooting(0,-5);
-//                        break;
-//                    case 'D':
-//                        player.shooting(0,5);
-//                        break;
-//                }
-                player.shooting(5, 0);
+                switch (direction) {
+                    case 'L':
+                        player.shooting(-5, 0);
+                        break;
+                    case 'R':
+                        player.shooting(+5, 0);
+                        break;
+                    case 'U':
+                        player.shooting(0, -5);
+                        break;
+                    case 'D':
+                        player.shooting(0, 5);
+                        break;
+                }
                 break;
         }
         repaint();

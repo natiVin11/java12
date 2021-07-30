@@ -3,6 +3,8 @@ import java.awt.Graphics;
 
 public class Shot extends Position{
     private ImageIcon shot;
+    int xDir=0;
+    int yDir=0;
 
     public Shot(int x, int y) {
         super(x, y);
@@ -25,7 +27,14 @@ public class Shot extends Position{
 
     }
     public void move() {
-        this.setX(getX() - 5);
+        this.setX(getX() + xDir);
+        this.setY(getY() + yDir);
+
+    }
+    public void diriction(int x,int y) {
+        xDir=x;
+        yDir=y;
+
     }
 
 

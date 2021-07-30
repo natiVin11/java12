@@ -5,13 +5,14 @@ public class Enemy extends Position {
     private ImageIcon imageIcon;
     private Shot[] shot;
     private Shot bullet;
-    int velX = 7;
+    int velX = 10;
+    boolean flag = true;
+
 
     public Enemy(int x, int y) {
         super(x, y);
         this.imageIcon = new ImageIcon("Img/EnemyR.png");
-        this.shot = new Shot[5];
-        bullet=new Shot(getX(),getY()+21);
+        bullet = new Shot(getX(), getY() + 21);
     }
 
     public Shot[] getShot() {
@@ -27,7 +28,7 @@ public class Enemy extends Position {
     }
 
     public void setBullet() {
-        this.bullet = new Shot(getX(),getY());
+        this.bullet = new Shot(getX(), getY());
     }
 
     public int getVelX() {
@@ -46,17 +47,31 @@ public class Enemy extends Position {
         this.imageIcon = imageIcon;
     }
 
-    public void paint(Graphics g, GamePanel gamePanel) {
+    public void paint(Graphics g, GamePanel gamePanel, int x, int y) {
         this.imageIcon.paintIcon(gamePanel, g, this.getX(), this.getY());
+        bullet.paint(g,gamePanel);
 
     }
 
-    public void direction(int x) {
-        if (x == 0)
-            this.setX(getX() - velX);
-        else if(x!=0){
-            velX = -velX;
-            this.setX(getX() + velX);}
+    public void direction() {
+        if (flag) {
+            setImageIcon(new ImageIcon("Img/EnemyR.png"));
+        }
+        else{
+            setImageIcon(new ImageIcon("Img/EnemyL.png"));
+           }
+
+        this.setX(this.getX() - velX);
+        if (this.getX() < 60 || this.getX() > 1300) {
+            velX = (-1) * (velX);
+            flag = !flag;
+        }
+
+    }
+    public boolean checkEnemy(int x,int y) {
+        if (this.getX() == x  && this.getY() == y)
+            return true;
+        return false;
 
     }
 }

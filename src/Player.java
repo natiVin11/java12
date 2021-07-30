@@ -11,18 +11,9 @@ public class Player extends Position {
     public Player(int x, int y) {
         super(x, y);
         this.imageIcon = new ImageIcon("Img/player2_tank_down.png");
-        this.pshots = new Shot(getX(), getY());
-        this.rectangle = new Rectangle(getX(),getY(),DefGame.ENEMY_W,DefGame.ENEMY_H);
-    }
+        this.pshots = new Shot(getX()+10, getY());
 
-    public Rectangle getRectangle() {
-        return rectangle;
     }
-
-    public void setRectangle(Rectangle rectangle) {
-        this.rectangle = rectangle;
-    }
-
     public void shooting(int dir) {
         pshots.dir(dir);
     }
@@ -41,14 +32,14 @@ public class Player extends Position {
     }
 
     public boolean checkErea() {
-        if (this.getX() < 50 || this.getY() < 50 || this.getY() > DefGame.WINDOS_W - 100 || this.getX() > DefGame.WINDOS_H - 100) {
+        if (this.getX() < 50 || this.getY() < 50 || this.getY() > DefGame.WINDOS_W - 150 || this.getX() > DefGame.WINDOS_H - 100) {
             return false;
         }
         return true;
     }
 
     public boolean catchPrice(int x, int y) {
-        if (this.x + DefGame.PRICE_H == x && this.y + DefGame.PRICE_W == y) {
+        if (this.x== x && this.y == y) {
             System.out.println("catch");
             return true;
         }
@@ -63,8 +54,10 @@ public class Player extends Position {
     public void setPshots(Shot pshots) {
         this.pshots = pshots;
     }
+
+
     public boolean checkEnemy(int x, int y) {
-        if (this.getX() == x && this.getY()  == y)
+        if (this.getX() == x+DefGame.ROBOT_Y/2 && this.getY()  == y+DefGame.ROBOT_Y/2)
             return true;
         return false;
 

@@ -55,6 +55,7 @@ public class Enemy extends Position {
     public void direction() {
         if (flag) {
             setImageIcon(new ImageIcon("Img/EnemyR.png"));
+
         } else {
             setImageIcon(new ImageIcon("Img/EnemyL.png"));
         }

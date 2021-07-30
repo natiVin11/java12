@@ -23,6 +23,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private int xPos = r.nextInt(5);
     private int yPos = r.nextInt(5);
     int direction = 0;
+    boolean shoot = false;
 
 
     public GamePanel() {
@@ -54,7 +55,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         }));
         setLayout(null);
         this.player = new
-                Player(DefGame.ROBOT_X + 60, DefGame.ROBOT_Y + 60);
+                Player(DefGame.ROBOT_X, DefGame.ROBOT_Y);
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
@@ -66,12 +67,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         new Thread(() -> {
             while (true) {
                 repaint();
-                if (player.checkEnemy(en1.getX(), en1.getY()) ||
-                        player.checkEnemy(en2.getX(), en2.getY()) ||
-                        player.checkEnemy(en3.getX(), en3.getY()) ||
-                        player.checkEnemy(en4.getX(), en4.getY()) ||
-                        player.checkEnemy(en5.getX(), en5.getY()) ||
-                        player.checkEnemy(en6.getX(), en6.getY())) {
+                if (player.getX() == en1.getX() && player.getY() == en1.getY() ||
+                        player.getX() == en2.getX() && player.getY() == en2.getY() ||
+                        player.getX() == en3.getX() && player.getY() == en3.getY() ||
+                        player.getX() == en4.getX() && player.getY() == en4.getY() ||
+                        player.getX() == en5.getX() && player.getY() == en5.getY() ||
+                        player.getX() == en6.getX() && player.getY() == en6.getY()) {
                     this.explode = new Explode(player.getX(), player.getY());
                     this.setId = DefGame.SEN_EXPLODE;
 
@@ -99,9 +100,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         JLabel gameOver = new JLabel(new ImageIcon("Img/GameOver.jpeg"));
         gameOver.setBounds(0, 0, DefGame.WINDOS_H, DefGame.WINDOS_W);
         JButton yesButton = new JButton("Yes");
-        yesButton.setBounds(DefGame.BOYTTON_X - 650, DefGame.BOYTTON_Y - 200, DefGame.BOYTTON_H - 10, DefGame.BOYTTON_W - 10);
+        yesButton.setBounds(DefGame.BOYTTON_X - 650, DefGame.BOYTTON_Y - 200, DefGame.BOYTTON_H -
+                DefGame.PRICE_W, DefGame.BOYTTON_W - DefGame.PRICE_W);
         JButton noButton = new JButton("No And Exit");
-        noButton.setBounds(DefGame.BOYTTON_X - 650, DefGame.BOYTTON_Y - 50, DefGame.BOYTTON_H - 10, DefGame.BOYTTON_W - 10);
+        noButton.setBounds(DefGame.BOYTTON_X - 650, DefGame.BOYTTON_Y - 50, DefGame.BOYTTON_H -
+                DefGame.PRICE_W, DefGame.BOYTTON_W - DefGame.PRICE_W);
         this.add(noButton);
         this.add(yesButton);
         this.add(gameOver);
@@ -113,8 +116,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             noButton.setVisible(false);
             yesButton.setVisible(false);
             gameOver.setVisible(false);
-            player.setX(DefGame.ROBOT_X + 60);
-            player.setY(DefGame.ROBOT_Y + 60);
+            player.setX(DefGame.ROBOT_X);
+            player.setY(DefGame.ROBOT_Y);
 
         }));
         noButton.addActionListener((e -> {
@@ -142,8 +145,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                     en5.paint(g, this, en1.getX(), en1.getY());
                     en6.paint(g, this, en1.getX(), en1.getY());
                     if (player.catchPrice(map.prize1.x, map.prize1.y)) {
-                        map.prize1.setX(randX[xPos++]);
-                        map.prize1.setY(randY[yPos++]);
+                        if ((xPos + 1) < 6 && yPos++ < 6 && (xPos--) > 0 && yPos-- > 0) {
+                            map.prize1.setX(randX[xPos++]);
+                            map.prize1.setY(randY[yPos++]);
+                        } else {
+                            map.prize1.setX(randX[xPos--]);
+                            map.prize1.setY(randY[yPos--]);
+                        }
                     }
                     break;
                 }
@@ -179,55 +187,47 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                     this.setId = DefGame.SEN_EXPLODE;
                     break;
                 }
-//                if (player.catchPrice(map.prize1.x, map.prize1.y)) {
-//                    map.locatePrice();
-//                }
                 player.setX(player.getX() - 5);
                 break;
             case KeyEvent.VK_RIGHT:
                 direction = 3;
                 player.setImageIcon(new ImageIcon("Img/player2_tank_right.png"));
                 if (!player.checkErea()) {
-//                    gameOver();
+                    this.explode = new Explode(player.getX(), player.getY());
+                    this.setId = DefGame.SEN_EXPLODE;
                     break;
                 }
-                int q = 10;
-
-
                 player.setX(player.getX() + 5);
                 break;
             case KeyEvent.VK_UP:
                 direction = 0;
                 player.setImageIcon(new ImageIcon("Img/player2_tank_up.png"));
                 if (!player.checkErea()) {
-                    gameOver();
+                    this.explode = new Explode(player.getX(), player.getY());
+                    this.setId = DefGame.SEN_EXPLODE;
                     break;
                 }
-//                if (player.catchPrice(map.prize1.x, map.prize1.y)) {
-//                    map.locatePrice();
-//                }
+
                 player.setY(player.getY() - 5);
                 break;
             case KeyEvent.VK_DOWN:
                 direction = 2;
                 player.setImageIcon(new ImageIcon("Img/player2_tank_down.png"));
                 if (!player.checkErea()) {
-                    gameOver();
+                    this.explode = new Explode(player.getX(), player.getY());
+                    this.setId = DefGame.SEN_EXPLODE;
                     break;
                 }
-//                if (player.catchPrice(map.prize1.x, map.prize1.y)) {
-//                    map.locatePrice();
-//                }
+
                 player.setY(player.getY() + 5);
                 break;
             case KeyEvent.VK_SPACE:
-                player.shooting(direction);
-
                 break;
         }
         repaint();
 
     }
+
 
     @Override
     public void keyReleased(KeyEvent e) {

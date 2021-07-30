@@ -4,16 +4,19 @@ import java.awt.*;
 public class Prize extends Position{
 
     private ImageIcon icon;
-
-
+    private Rectangle pr;
     public Prize(int x, int y) {
         super(x, y);
         this.icon = new ImageIcon("Img/Money.png");
+        pr=new Rectangle(this.getX(),this.getY(),DefGame.PRICE_W,DefGame.PRICE_H);
     }
 
-    public void setRandomPosition() {
-        setX((int) (Math.random() * 50));
-        setY((int) (Math.random() * 50));
+    public Rectangle getPr() {
+        return pr;
+    }
+
+    public void setPr(Rectangle pr) {
+        this.pr = pr;
     }
 
     public void paint(Graphics g, Map map, int prizwX, int i) {

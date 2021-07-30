@@ -5,28 +5,36 @@ class Explode {
     private int step = 0;
     private int[] diameter = {1, 4, 7, 12, 18, 26, 32, 40, 49};
 
-    private boolean live = true;
-
-    private Player player;
-
-    Explode(int x, int y, Player player) {
+    Explode(int x, int y) {
         this.x = x;
-        this.y =y;
-        this.player = player;
+        this.y = y;
     }
 
-    void draw(Graphics graphics,GamePanel gamePanel) {
+    void draw(Graphics graphics, GamePanel gamePanel) {
         if (step == diameter.length) {
-            live = false;
             step = 0;
-            return ;
+            gamePanel.gameOver();
         }
-
         Color color = graphics.getColor();
         graphics.setColor(Color.ORANGE);
         graphics.fillOval(x, y, diameter[step], diameter[step]);
         graphics.setColor(color);
         step++;
+    }
 
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 }

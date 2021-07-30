@@ -1,21 +1,30 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Player extends Position {
 
     private ImageIcon imageIcon;
     private Shot pshots;
+    private Rectangle rectangle;
 
-    public Player(int x, int y){
+    public Player(int x, int y) {
         super(x, y);
         this.imageIcon = new ImageIcon("Img/player2_tank_down.png");
-        this.pshots = new Shot(getX(),getY());
+        this.pshots = new Shot(getX(), getY());
+        this.rectangle = new Rectangle(getX(),getY(),DefGame.ENEMY_W,DefGame.ENEMY_H);
     }
 
-    public  void shooting(int x,int y){
-        pshots.diriction(x,y);
-        pshots.setX(getX()-x);
-        pshots.setY(getY()+y);
+    public Rectangle getRectangle() {
+        return rectangle;
+    }
+
+    public void setRectangle(Rectangle rectangle) {
+        this.rectangle = rectangle;
+    }
+
+    public void shooting(int dir) {
+        pshots.dir(dir);
     }
 
     public ImageIcon getImageIcon() {
@@ -28,8 +37,7 @@ public class Player extends Position {
 
     public void paint(Graphics g, GamePanel gamePanel) {
         this.imageIcon.paintIcon(gamePanel, g, this.getX(), this.getY());
-        pshots.paint(g,gamePanel);
-
+        pshots.paint(g, gamePanel);
     }
 
     public boolean checkErea() {
@@ -38,11 +46,26 @@ public class Player extends Position {
         }
         return true;
     }
+
     public boolean catchPrice(int x, int y) {
         if (this.x + DefGame.PRICE_H == x && this.y + DefGame.PRICE_W == y) {
             System.out.println("catch");
             return true;
         }
+        return false;
+
+    }
+
+    public Shot getPshots() {
+        return pshots;
+    }
+
+    public void setPshots(Shot pshots) {
+        this.pshots = pshots;
+    }
+    public boolean checkEnemy(int x, int y) {
+        if (this.getX() == x && this.getY()  == y)
+            return true;
         return false;
 
     }

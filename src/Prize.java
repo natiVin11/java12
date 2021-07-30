@@ -11,14 +11,6 @@ public class Prize extends Position{
         pr=new Rectangle(this.getX(),this.getY(),DefGame.PRICE_W,DefGame.PRICE_H);
     }
 
-    public Rectangle getPr() {
-        return pr;
-    }
-
-    public void setPr(Rectangle pr) {
-        this.pr = pr;
-    }
-
     public void paint(Graphics g, Map map, int prizwX, int i) {
         this.icon.paintIcon(map,g,this.getX(),this.getY());
     }

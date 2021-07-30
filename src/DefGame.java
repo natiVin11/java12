@@ -11,6 +11,9 @@ public class DefGame {
     public static final int SEN_EXPLODE = 5;
     public static int ROBOT_X = 60;
     public static int ROBOT_Y = 60;
+    public static int ROBOT_H = 50;
+    public static int ROBOT_W = 50;
+
     public static int X_LINE =30;
     public static int Y_LINE =30;
     public static int LOW_X=100;

@@ -8,11 +8,10 @@ public class Map extends JPanel {
     public Prize prize1;
     private int[] prizwX = {100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900,
             950, 1000, 1050, 1100, 1150, 1200};
-    private int[] prizwY = {100,80,115,810, 150, 200, 250, 300, 350, 400,420, 450, 500, 550, 600, 650, 700, 750, 800,
-    222,537,741,365};
+    private int[] prizwY = {100,80,115,810, 150, 200, 250, 300, 350, 400,420, 450, 500};
     private Random r = new Random();
-    private int xPos = r.nextInt(23);
-    private int yPos = r.nextInt(23);
+    private int xPos = r.nextInt(5);
+    private int yPos = r.nextInt(5);
 
 
     Map() {
@@ -65,12 +64,6 @@ public class Map extends JPanel {
         for (int y = 1; y < 200; y++) {
             this.obstaclesDR[y].paint(g, this);
         }
-    }
-
-    public void locatePrice() {
-        prize1.setX(prizwX[xPos]);
-        prize1.setY(prizwY[yPos]);
-        repaint();
     }
 
 }

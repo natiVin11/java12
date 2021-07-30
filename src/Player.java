@@ -6,7 +6,6 @@ public class Player extends Position {
 
     private ImageIcon imageIcon;
     private Shot pshots;
-    private Rectangle rectangle;
 
     public Player(int x, int y) {
         super(x, y);
@@ -39,7 +38,7 @@ public class Player extends Position {
     }
 
     public boolean catchPrice(int x, int y) {
-        if (this.x== x && this.y == y) {
+        if (this.x>=x &&this.x>=x+ DefGame.PRICE_W&& this.y <= y&&this.x>=x+ DefGame.PRICE_H) {
             System.out.println("catch");
             return true;
         }
@@ -57,7 +56,8 @@ public class Player extends Position {
 
 
     public boolean checkEnemy(int x, int y) {
-        if (this.getX() == x+DefGame.ROBOT_Y/2 && this.getY()  == y+DefGame.ROBOT_Y/2)
+        if (this.getX() <= x+DefGame.ROBOT_Y&&this.getX() >= x&& this.getY()
+                <= y+DefGame.ROBOT_Y&&this.getY()>=y)
             return true;
         return false;
 

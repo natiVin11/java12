@@ -18,7 +18,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private Enemy en5;
     private Enemy en6;
     private int[] randX = {750, 800, 850, 900, 950, 1000, 1050, 1100, 1150, 1200};
-    private int[] randY = {100, 80, 115, 810, 150, 200, 250, 300, 350, 400, 420, 450, 500, 550, 600};
+    private int[] randY = {100, 80, 115, 810, 150, 200, 250, 300, 350, 400, 420, 450, 500, 550};
     private Random r = new Random();
     private int xPos = r.nextInt(5);
     private int yPos = r.nextInt(5);
@@ -67,12 +67,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         new Thread(() -> {
             while (true) {
                 repaint();
-                if (player.getX() == en1.getX() && player.getY() == en1.getY() ||
-                        player.getX() == en2.getX() && player.getY() == en2.getY() ||
-                        player.getX() == en3.getX() && player.getY() == en3.getY() ||
-                        player.getX() == en4.getX() && player.getY() == en4.getY() ||
-                        player.getX() == en5.getX() && player.getY() == en5.getY() ||
-                        player.getX() == en6.getX() && player.getY() == en6.getY()) {
+                if (player.checkEnemy( en1.getX(), en1.getY()) ||
+                        player.checkEnemy(en2.getX() , en2.getY()) ||
+                        player.checkEnemy(en3.getX() , en3.getY()) ||
+                        player.checkEnemy(en4.getX(),en4.getY()) ||
+                        player.checkEnemy(en5.getX(),en5.getY()) ||
+                        player.checkEnemy(en6.getX(),en6.getY())) {
                     this.explode = new Explode(player.getX(), player.getY());
                     this.setId = DefGame.SEN_EXPLODE;
 
@@ -145,10 +145,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                     en5.paint(g, this, en1.getX(), en1.getY());
                     en6.paint(g, this, en1.getX(), en1.getY());
                     if (player.catchPrice(map.prize1.x, map.prize1.y)) {
-                        if ((xPos + 1) < 6 && yPos++ < 6 && (xPos--) > 0 && yPos-- > 0) {
+                        if ((xPos + 1) < 6 && yPos++ < 6 ) {
                             map.prize1.setX(randX[xPos++]);
                             map.prize1.setY(randY[yPos++]);
-                        } else {
+                        }
+                        else if((xPos--) > 0 && yPos-- > 0)
+                        {
                             map.prize1.setX(randX[xPos--]);
                             map.prize1.setY(randY[yPos--]);
                         }
